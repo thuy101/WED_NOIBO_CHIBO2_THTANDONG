@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRUNG TÂM ĐIỀU HÀNH & LƯU TRỮ HỒ SƠ ĐẢNG VIÊN - CHI BỘ 2</title>
+  <style>
+    :root {
+      --fire-red: #b71c1c;
+      --crimson: #850000;
+      --deep-red: #4a0000;
+      --gold: #ffc107;
+      --gold-dark: #b58100;
+      --gold-light: #fff8e1;
+      --navy: #0d1b2a;
+      --dang-bg: #fdfaf3;
+      --panel-bg: #ffffff;
+      --text: #1b263b;
+      --border: #e8d8b8;
+      --success: #198754;
+      --warning: #fd7e14;
+      --danger: #dc3545;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+    
+    body {
+      background-color: var(--dang-bg);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(183, 28, 28, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(255, 193, 7, 0.08) 0%, transparent 40%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER BANNER */
+    header {
+      background: linear-gradient(135deg, var(--deep-red) 0%, var(--crimson) 40%, var(--fire-red) 100%);
+      color: #fff;
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(183, 28, 28, 0.35);
+      border-bottom: 3.5px solid var(--gold);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-logo { font-size: 1.8rem; filter: drop-shadow(0 0 8px rgba(255,193,7,0.6)); }
+    .brand-text h1 { font-size: 1.22rem; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--gold); text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+    .brand-text p { font-size: 0.84rem; color: #ffe082; font-weight: 500; margin-top: 2px; }
+    .auth-badge { display: flex; align-items: center; gap: 12px; }
+    .role-tag { background: rgba(0,0,0,0.3); border: 1px solid var(--gold); color: var(--gold); padding: 5px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; }
+    .btn-exit { background: transparent; border: 1.5px solid #fff; color: #fff; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.82rem; font-weight: 600; transition: 0.2s; }
+    .btn-exit:hover { background: #fff; color: var(--fire-red); }
+
+    .container { max-width: 1350px; width: 100%; margin: 20px auto; padding: 0 15px; flex: 1; }
+    .card { background: var(--panel-bg); border-radius: 8px; border: 1px solid var(--border); padding: 20px; margin-bottom: 20px; box-shadow: 0 3px 10px rgba(183, 28, 28, 0.05); }
+    .card-head { font-size: 1.1rem; font-weight: 700; color: var(--deep-red); border-bottom: 2px solid #f9ebd2; padding-bottom: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+
+    /* THANH CHUYỂN ĐỔI CHẾ ĐỘ DÀNH RIÊNG CHO ADMIN ĐẢNG VIÊN */
+    .admin-switch-bar {
+      display: none;
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-left: 5px solid var(--fire-red);
+      padding: 10px 16px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(183, 28, 28, 0.08);
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .admin-switch-btn-group { display: flex; gap: 8px; }
+    .btn-switch-tab {
+      padding: 7px 16px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #faf4e8;
+      color: var(--text);
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-switch-tab:hover { background: #f0e2c3; }
+    .btn-switch-tab.active {
+      background: linear-gradient(135deg, var(--fire-red), var(--crimson));
+      color: #fff;
+      border-color: var(--fire-red);
+      box-shadow: 0 2px 6px rgba(183, 28, 28, 0.3);
+    }
+
+    /* CỔNG ĐĂNG NHẬP */
+    .login-container {
+      max-width: 560px;
+      width: 100%;
+      margin: 45px auto 30px auto;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #ffcdd2;
+      border-top: 6px solid var(--fire-red);
+      box-shadow: 0 15px 35px rgba(183, 28, 28, 0.18), 0 5px 15px rgba(0, 0, 0, 0.06);
+      padding: 36px 40px;
+      text-align: center;
+    }
+    .login-badge-icon {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 15px auto;
+      background: linear-gradient(135deg, var(--fire-red), var(--crimson));
+      border: 3px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.2rem;
+      color: var(--gold);
+      box-shadow: 0 6px 18px rgba(183, 28, 28, 0.35);
+    }
+    .login-title { font-size: 1.35rem; font-weight: 800; color: var(--fire-red); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px; }
+    .login-subtitle { font-size: 0.9rem; color: #555; margin-bottom: 25px; font-weight: 500; }
+    .login-group { text-align: left; margin-bottom: 18px; }
+    .login-group label { display: block; font-size: 0.9rem; font-weight: 700; color: var(--navy); margin-bottom: 7px; }
+    .login-group input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid #dcdde1;
+      border-radius: 6px;
+      font-size: 1rem;
+      color: #2f3640;
+      background-color: #fafbfc;
+      transition: all 0.25s ease;
+    }
+    .login-group input:focus {
+      outline: none;
+      border-color: var(--fire-red);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3.5px rgba(183, 28, 28, 0.15);
+    }
+    .btn-login-fire {
+      width: 100%;
+      background: linear-gradient(135deg, var(--fire-red) 0%, var(--crimson) 50%, var(--deep-red) 100%);
+      color: #ffffff;
+      border: 1px solid var(--gold);
+      padding: 14px 20px;
+      border-radius: 6px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(183, 28, 28, 0.4);
+      transition: all 0.25s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 25px;
+    }
+    .btn-login-fire:hover {
+      background: linear-gradient(135deg, var(--crimson) 0%, var(--deep-red) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(183, 28, 28, 0.5);
+    }
+    .login-note-safe { margin-top: 20px; font-size: 0.8rem; color: #7f8c8d; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+    /* METRICS ADMIN */
+    .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 20px; }
+    .metric-box { border-radius: 8px; padding: 16px 20px; color: #fff; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .metric-data h3 { font-size: 2.2rem; font-weight: 800; line-height: 1.1; }
+    .metric-data p { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; margin-top: 4px; font-weight: 600; }
+    .metric-icon { font-size: 2.4rem; opacity: 0.85; }
+
+    .box-red { background: linear-gradient(135deg, #c62828, #b71c1c); border-left: 5px solid var(--gold); }
+    .box-green { background: linear-gradient(135deg, #2e7d32, #1b5e20); border-left: 5px solid #a5d6a7; }
+    .box-orange { background: linear-gradient(135deg, #ef6c00, #e65100); border-left: 5px solid #ffe082; }
+    .box-blue { background: linear-gradient(135deg, #1565c0, #0d47a1); border-left: 5px solid #90caf9; }
+
+    /* PROGRESS BARS */
+    .progress-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 15px; margin-bottom: 20px; }
+    .prog-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+    .prog-header { display: flex; justify-content: space-between; font-size: 0.86rem; font-weight: 700; color: var(--deep-red); margin-bottom: 8px; }
+    .prog-bar-bg { width: 100%; height: 10px; background: #f0e6d2; border-radius: 5px; overflow: hidden; }
+    .prog-bar-fill { height: 100%; border-radius: 5px; transition: 0.4s width ease; }
+    .fill-red { background: linear-gradient(90deg, #ff8f00, #b71c1c); }
+    .fill-green { background: linear-gradient(90deg, #4caf50, #2e7d32); }
+    .fill-blue { background: linear-gradient(90deg, #03a9f4, #1565c0); }
+
+    /* TABLE */
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; }
+    th { background: #fff8eb; color: var(--crimson); font-weight: 700; text-align: center; border-bottom: 2px solid #e0c89c; }
+    tr:hover { background-color: #fffdf8; }
+
+    .member-name-btn {
+      font-weight: 700;
+      color: #1b263b;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .member-name-btn:hover { color: var(--fire-red); text-decoration: underline; }
+    .btn-delete-row {
+      background: #ffebee;
+      color: var(--danger);
+      border: 1px solid #ffcdd2;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+    .btn-delete-row:hover { background: var(--danger); color: #fff; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* BUTTONS CHUNG */
+    .btn { padding: 6px 12px; border-radius: 4px; border: none; font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+    .btn-fire { background: linear-gradient(135deg, var(--fire-red), var(--crimson)); color: #fff; }
+    .btn-fire:hover { background: var(--deep-red); }
+    .btn-gold { background: linear-gradient(135deg, #ffd54f, var(--gold)); color: #3e2723; font-weight: 700; }
+    .btn-gold:hover { background: var(--gold-dark); color: #fff; }
+    .btn-green { background: linear-gradient(135deg, #43a047, #2e7d32); color: #fff; font-weight: 700; }
+    .btn-green:hover { background: #1b5e20; }
+    .btn-sub { background: #f5eedf; color: var(--text); border: 1px solid var(--border); }
+    .btn-sub:hover { background: #ebdfc8; }
+    .btn-action { background: #fdf5e6; color: #a82020; border: 1px solid #ecc996; padding: 3px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: bold; }
+    .btn-action:hover { background: var(--fire-red); color: #fff; }
+
+    /* BADGES */
+    .badge { padding: 3px 7px; border-radius: 12px; font-size: 0.74rem; font-weight: 700; display: inline-block; }
+    .badge-done { background: #e8f8f5; color: #155724; border: 1px solid #c3e6cb; }
+    .badge-wait { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+    .badge-miss { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    .badge-tag { background: #f4ecdc; color: #495057; border-radius: 4px; padding: 2px 6px; font-size: 0.72rem; }
+    .badge-period { background: #f3e5f5; color: #4a148c; border: 1px solid #e1bee7; font-size: 0.76rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-right: 6px; }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(13, 27, 42, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-box-solid {
+      background: #ffffff !important;
+      width: 95%;
+      max-width: 500px;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+      border: 1px solid #e0e0e0;
+      border-top: 5px solid var(--fire-red);
+      position: relative;
+    }
+
+    .modal-dossier { background: #fff; width: 95%; max-width: 1050px; height: 88vh; border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .dossier-head { background: linear-gradient(135deg, var(--deep-red), var(--fire-red)); color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--gold); }
+    .dossier-body { flex: 1; display: flex; overflow: hidden; }
+    .dossier-nav { width: 300px; background: #faf5eb; border-right: 1px solid var(--border); overflow-y: auto; padding: 10px; }
+    .dossier-tab-btn { width: 100%; text-align: left; padding: 10px 12px; border-radius: 6px; border: none; background: transparent; font-size: 0.83rem; font-weight: 600; cursor: pointer; color: var(--text); margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
+    .dossier-tab-btn:hover { background: #f0e4cc; }
+    .dossier-tab-btn.active { background: #ffebee; color: var(--fire-red); font-weight: 700; border-left: 4px solid var(--fire-red); }
+    .dossier-content { flex: 1; padding: 15px; overflow-y: auto; background: #fff; }
+
+    .modal-pdf { background: #fff; width: 95%; max-width: 950px; height: 90vh; border-radius: 6px; padding: 15px; display: flex; flex-direction: column; }
+    .pdf-frame { width: 100%; flex: 1; border: 1px solid var(--border); border-radius: 4px; margin-top: 10px; background: #525659; }
+
+    .doc-group { margin-bottom: 12px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .doc-group-title { background: #fff9ed; padding: 10px 14px; font-weight: 700; font-size: 0.9rem; color: var(--navy); display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .doc-block { padding: 10px 14px; border-bottom: 1px solid #f5ecd8; }
+    .doc-title-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+    .file-list { background: #fcf9f2; border: 1px dashed var(--border); border-radius: 4px; padding: 6px 8px; margin-top: 4px; }
+    
+    /* GIAO DIỆN MỖI DÒNG HỒ SƠ ĐƯỢC NÂNG CẤP VỚI THÔNG TIN THÁNG/NĂM VÀ TÊN VĂN BẢN */
+    .file-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 10px;
+      background: #fff;
+      border: 1px solid #ebd9b9;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      font-size: 0.83rem;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .file-info-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .form-row { margin-bottom: 14px; }
+    .form-row label { display: block; font-size: 0.84rem; font-weight: 700; margin-bottom: 5px; color: #333; }
+    .form-row input, .form-row select { width: 100%; padding: 9px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem; background: #fff; color: #111; }
+    .form-row input:focus, .form-row select:focus { outline: none; border-color: var(--fire-red); box-shadow: 0 0 0 2px rgba(183,28,28,0.2); }
+
+    footer { text-align: center; padding: 14px; font-size: 0.82rem; color: #7f8c8d; border-top: 1px solid var(--border); background: #fffaf0; margin-top: auto; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER BANNER -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo">☭</div>
+      <div class="brand-text">
+        <h1>TRUNG TÂM ĐIỀU HÀNH & LƯU TRỮ HỒ SƠ ĐẢNG VIÊN</h1>
+        <p>Chi bộ 2 - Đảng bộ Trường TH&THCS Tân Đồng</p>
+      </div>
+    </div>
+    <div id="auth-panel" class="auth-badge" style="display: none;">
+      <span class="role-tag" id="user-display"></span>
+      <button class="btn-exit" onclick="app.logout()">ĐĂNG XUẤT</button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- THANH CHUYỂN ĐỔI CHẾ ĐỘ DÀNH CHO ADMIN MAI THỊ THÚY -->
+    <div id="admin-switch-bar" class="admin-switch-bar">
+      <div>
+        <span style="font-weight: 700; color: var(--deep-red);">Đồng chí: Mai Thị Thúy</span>
+        <span style="font-size: 0.82rem; color: #666; margin-left: 6px;">(Quản trị viên Chi bộ & Đảng viên)</span>
+      </div>
+      <div class="admin-switch-btn-group">
+        <button id="btn-mode-admin" class="btn-switch-tab active" onclick="app.switchAdminView('ADMIN')">
+          📊 Bảng Quản trị (Admin)
+        </button>
+        <button id="btn-mode-member" class="btn-switch-tab" onclick="app.switchAdminView('MEMBER')">
+          📁 Hộp hồ sơ cá nhân của tôi
+        </button>
+      </div>
+    </div>
+
+    <!-- 1. CỔNG ĐĂNG NHẬP -->
+    <div id="view-login" class="login-container">
+      <div class="login-badge-icon">☭</div>
+      <h2 class="login-title">CỔNG ĐĂNG NHẬP HỆ THỐNG</h2>
+      <p class="login-subtitle">Hộp lưu trữ hồ sơ điện tử & Quản lý chất lượng Đảng viên</p>
+      
+      <div class="login-group">
+        <label>Tài khoản Đảng viên / Quản trị:</label>
+        <input type="text" id="log-acc" placeholder="Nhập tên tài khoản (ví dụ: thuy.mai, nu.le...)" autocomplete="off">
+      </div>
+      
+      <div class="login-group">
+        <label>Mật khẩu đăng nhập:</label>
+        <input type="password" id="log-pass" placeholder="Nhập mật khẩu cá nhân..." autocomplete="off">
+      </div>
+      
+      <button class="btn-login-fire" onclick="app.login()">
+        <span>ĐĂNG NHẬP HỆ THỐNG</span> ➜
+      </button>
+
+      <div class="login-note-safe">
+        <span>🔒 Hệ thống mạng nội bộ bảo mật | Chi bộ 2 - Trường TH&THCS Tân Đồng</span>
+      </div>
+    </div>
+
+    <!-- 2. GIAO DIỆN QUẢN TRỊ ADMIN -->
+    <div id="view-admin" style="display: none;">
+      <div class="metric-grid">
+        <div class="metric-box box-red">
+          <div class="metric-data">
+            <h3 id="stat-total">29</h3>
+            <p>Tổng số Đảng viên</p>
+          </div>
+          <div class="metric-icon">👥</div>
+        </div>
+        <div class="metric-box box-green">
+          <div class="metric-data">
+            <h3 id="stat-full">0</h3>
+            <p>Hoàn thành nộp hồ sơ</p>
+          </div>
+          <div class="metric-icon">🎖️</div>
+        </div>
+        <div class="metric-box box-orange">
+          <div class="metric-data">
+            <h3 id="stat-pending">0</h3>
+            <p>Còn nợ hồ sơ theo hạn</p>
+          </div>
+          <div class="metric-icon">⏳</div>
+        </div>
+        <div class="metric-box box-blue">
+          <div class="metric-data">
+            <h3 id="stat-total-docs">0</h3>
+            <p>Tổng số văn bản PDF đã lưu</p>
+          </div>
+          <div class="metric-icon">📁</div>
+        </div>
+      </div>
+
+      <div class="progress-section">
+        <div class="prog-card">
+          <div class="prog-header">
+            <span>I. HỒ SƠ ĐỊNH KỲ NĂM 2026 (4 MỤC)</span>
+            <span id="rate-grp1" style="color: var(--fire-red);">0%</span>
+          </div>
+          <div class="prog-bar-bg"><div class="prog-bar-fill fill-red" id="bar-grp1" style="width: 0%;"></div></div>
+          <div style="font-size: 0.72rem; color: #666; margin-top: 5px;">Bản cam kết, Tự kiểm điểm, Phiếu 213, Khen thưởng</div>
+        </div>
+
+        <div class="prog-card">
+          <div class="prog-header">
+            <span>II. HỒ SƠ KIỂM TRA ĐẢNG VIÊN (13 MỤC)</span>
+            <span id="rate-grp2" style="color: var(--warning);">0%</span>
+          </div>
+          <div class="prog-bar-bg"><div class="prog-bar-fill fill-green" id="bar-grp2" style="width: 0%;"></div></div>
+          <div style="font-size: 0.72rem; color: #666; margin-top: 5px;">Kế hoạch, Quyết định, Báo cáo giải trình, Kết luận KT[cite: 2, 7]</div>
+        </div>
+
+        <div class="prog-card">
+          <div class="prog-header">
+            <span>III. HỒ SƠ GIÁM SÁT CHUYÊN ĐỀ (17 MỤC)</span>
+            <span id="rate-grp3" style="color: #1565c0;">0%</span>
+          </div>
+          <div class="prog-bar-bg"><div class="prog-bar-fill fill-blue" id="bar-grp3" style="width: 0%;"></div></div>
+          <div style="font-size: 0.72rem; color: #666; margin-top: 5px;">Chương trình, Biên bản thẩm tra, Kết luận, Khắc phục[cite: 2, 7]</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span>📋 BẢNG ĐIỀU HÀNH & THEO DÕI HỒ SƠ TOÀN CHI BỘ</span>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn btn-green" onclick="app.openAddMemberModal()">➕ Thêm Đảng viên mới</button>
+            <button class="btn btn-gold" onclick="app.printNotice()">📢 Trích xuất DS đôn đốc bổ sung</button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; background: #fff8eb; padding: 10px; border-radius: 6px; border: 1px solid var(--border);">
+          <input type="text" id="adm-search" placeholder="🔍 Tìm theo tên, số thẻ hoặc tài khoản..." style="padding: 7px 10px; border: 1px solid #ccc; border-radius: 4px; min-width: 250px;" oninput="app.filterTable()">
+          <select id="adm-filter-group" style="padding: 7px 10px; border: 1px solid #ccc; border-radius: 4px;" onchange="app.filterTable()">
+            <option value="ALL">-- Tất cả Tổ Đảng / Khối --</option>
+            <option value="TỔ KHỐI I">Tổ Khối I</option>
+            <option value="TỔ KHỐI II">Tổ Khối II</option>
+            <option value="TỔ KHỐI III">Tổ Khối III</option>
+            <option value="TỔ KHỐI IV">Tổ Khối IV</option>
+            <option value="TỔ KHỐI V">Tổ Khối V</option>
+          </select>
+          <select id="adm-filter" style="padding: 7px 10px; border: 1px solid #ccc; border-radius: 4px;" onchange="app.filterTable()">
+            <option value="ALL">-- Tất cả tiến độ nộp --</option>
+            <option value="FULL">Đầy đủ hồ sơ định kỳ (3/3)</option>
+            <option value="PART">Còn thiếu tài liệu</option>
+            <option value="NONE">Chưa nộp tài liệu nào</option>
+          </select>
+        </div>
+
+        <div style="font-size: 0.78rem; color: #850000; margin-bottom: 8px; font-style: italic;">
+          * Mẹo quản trị: Click chuột trực tiếp vào Tên Đảng viên để hiện nút xóa tài khoản khi cần điều chuyển hoặc xóa khỏi chi bộ.
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 35px;">STT</th>
+                <th>Họ và Tên (Click để Xóa)</th>
+                <th>Tài khoản</th>
+                <th>Số thẻ Đảng</th>
+                <th>Tổ sinh hoạt</th>
+                <th>Bản cam kết</th>
+                <th>Tự kiểm điểm</th>
+                <th>Phiếu 213</th>
+                <th>Kiểm tra (13)[cite: 2, 7]</th>
+                <th>Giám sát (17)[cite: 2, 7]</th>
+                <th>Tiến độ nộp</th>
+                <th>Đánh giá chất lượng</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="adm-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. GIAO DIỆN ĐẢNG VIÊN (LƯU TRỮ QUÁ TRÌNH PHẤN ĐẤU QUA CÁC NĂM) -->
+    <div id="view-member" style="display: none;">
+      <div class="card" style="border-left: 4px solid var(--fire-red);">
+        <div class="card-head">
+          <span>THÔNG TIN HỒ SƠ ĐẢNG VIÊN - CHI BỘ 2</span>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-gold" onclick="app.openEditProfileModal()">Chỉnh sửa thông tin</button>
+            <button class="btn btn-sub" onclick="app.openPassModal(false)">Đổi mật khẩu</button>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; font-size: 0.9rem;">
+          <div>Họ và tên: <strong id="m-name">--</strong></div>
+          <div>Mã số thẻ Đảng: <strong id="m-card" style="color: var(--fire-red);">--</strong></div>
+          <div>Ngày sinh: <span id="m-dob">--</span></div>
+          <div>Tổ Đảng: <strong id="m-group">--</strong></div>
+          <div>Ngày vào Đảng: <span id="m-join">--</span></div>
+          <div>Ngày chính thức: <span id="m-official">--</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <!-- TIÊU ĐỀ ĐƯỢC NÂNG CẤP LƯU TRỮ QUÁ TRÌNH PHẤN ĐẤU QUA CÁC NĂM -->
+          <span>HỘP LƯU TRỮ HỒ SƠ ĐIỆN TỬ CÁ NHÂN (LƯU TRỮ QUÁ TRÌNH PHẤN ĐẤU QUA CÁC NĂM)</span>
+          <span style="font-size: 0.8rem; font-weight: normal; color: #7f8c8d;">Đảng viên được lưu trữ đa tệp theo từng năm và đọc văn bản trực tiếp</span>
+        </div>
+
+        <div class="doc-group">
+          <div class="doc-group-title" onclick="app.toggleGroup('grp-1')">
+            <span>I. HỒ SƠ TU DƯỠNG & ĐÁNH GIÁ ĐỊNH KỲ QUA CÁC NĂM</span>
+            <span id="grp-1-arr">▼</span>
+          </div>
+          <div class="doc-group-content" id="grp-1">
+            <div class="doc-block">
+              <div class="doc-title-bar">
+                <h4>1. Bản cam kết tu dưỡng, rèn luyện, phấn đấu (hằng năm)</h4>
+                <button class="btn btn-fire" onclick="app.openUploadModal('doc_camket', 'Bản cam kết tu dưỡng, rèn luyện, phấn đấu')">+ Tải thêm PDF</button>
+              </div>
+              <div class="file-list" id="list-doc_camket"></div>
+            </div>
+            <div class="doc-block">
+              <div class="doc-title-bar">
+                <h4>2. Bản tự kiểm điểm, đánh giá chất lượng đảng viên (cuối năm)</h4>
+                <button class="btn btn-fire" onclick="app.openUploadModal('doc_kiemdiem', 'Bản tự kiểm điểm, đánh giá chất lượng')">+ Tải thêm PDF</button>
+              </div>
+              <div class="file-list" id="list-doc_kiemdiem"></div>
+            </div>
+            <div class="doc-block">
+              <div class="doc-title-bar">
+                <h4>3. Phiếu nhận xét đảng viên nơi cư trú (Quy định 213-QĐ/TW)</h4>
+                <button class="btn btn-fire" onclick="app.openUploadModal('doc_phieu213', 'Phiếu nhận xét đảng viên nơi cư trú (Quy định 213)')">+ Tải thêm PDF</button>
+              </div>
+              <div class="file-list" id="list-doc_phieu213"></div>
+            </div>
+            <div class="doc-block">
+              <div class="doc-title-bar">
+                <h4>4. Giấy khen, quyết định biểu dương khen thưởng (qua các năm)</h4>
+                <button class="btn btn-fire" onclick="app.openUploadModal('doc_khenthuong', 'Quyết định khen thưởng, biểu dương')">+ Tải thêm PDF</button>
+              </div>
+              <div class="file-list" id="list-doc_khenthuong"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-group">
+          <div class="doc-group-title" onclick="app.toggleGroup('grp-2')">
+            <span>II. HỒ SƠ KIỂM TRA ĐẢNG VIÊN (13 MỤC)[cite: 2, 7]</span>
+            <span id="grp-2-arr">▼</span>
+          </div>
+          <div class="doc-group-content" id="grp-2">
+            <div id="kt-container"></div>
+          </div>
+        </div>
+
+        <div class="doc-group">
+          <div class="doc-group-title" onclick="app.toggleGroup('grp-3')">
+            <span>III. HỒ SƠ GIÁM SÁT CHUYÊN ĐỀ (17 MỤC)[cite: 2, 7]</span>
+            <span id="grp-3-arr">▼</span>
+          </div>
+          <div class="doc-group-content" id="grp-3">
+            <div id="gs-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL TẢI HỒ SƠ LÊN VỚI THÔNG TIN THÁNG/NĂM VÀ TÊN VĂN BẢN -->
+  <div id="upload-modal" class="modal">
+    <div class="modal-box-solid" style="border-top: 5px solid var(--fire-red);">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 14px;">
+        <h3 style="color: var(--fire-red); font-size: 1.15rem; font-weight: 800;">📤 TẢI LÊN VĂN BẢN HỒ SƠ ĐIỆN TỬ</h3>
+        <span style="font-size: 1.2rem; color: #888; cursor: pointer;" onclick="app.closeUploadModal()">✕</span>
+      </div>
+      
+      <p id="upload-category-title" style="font-size: 0.88rem; font-weight: 700; color: var(--navy); background: #fdf5e6; padding: 8px 12px; border-radius: 4px; margin-bottom: 15px; border-left: 3px solid var(--gold);"></p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div class="form-row">
+          <label>Năm áp dụng / Thực hiện (*):</label>
+          <select id="up-year">
+            <option value="2027">Năm 2027</option>
+            <option value="2026" selected>Năm 2026</option>
+            <option value="2025">Năm 2025</option>
+            <option value="2024">Năm 2024</option>
+            <option value="2023">Năm 2023</option>
+            <option value="2022">Năm 2022</option>
+            <option value="Trước 2022">Trước năm 2022</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Tháng áp dụng (tùy chọn):</label>
+          <select id="up-month">
+            <option value="">-- Cả năm --</option>
+            <option value="Tháng 01">Tháng 01</option>
+            <option value="Tháng 02">Tháng 02</option>
+            <option value="Tháng 03">Tháng 03</option>
+            <option value="Tháng 04">Tháng 04</option>
+            <option value="Tháng 05">Tháng 05</option>
+            <option value="Tháng 06">Tháng 06</option>
+            <option value="Tháng 07">Tháng 07</option>
+            <option value="Tháng 08">Tháng 08</option>
+            <option value="Tháng 09">Tháng 09</option>
+            <option value="Tháng 10">Tháng 10</option>
+            <option value="Tháng 11">Tháng 11</option>
+            <option value="Tháng 12">Tháng 12</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Tên văn bản hiển thị gợi nhớ (*):</label>
+        <input type="text" id="up-docname" placeholder="Ví dụ: Bản cam kết tu dưỡng năm 2026, Phiếu 213 năm 2025...">
+      </div>
+
+      <div class="form-row">
+        <label>Chọn tệp văn bản scan PDF (*):</label>
+        <input type="file" id="up-file" accept=".pdf" style="padding: 6px;">
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button class="btn btn-sub" onclick="app.closeUploadModal()">Hủy bỏ</button>
+        <button class="btn btn-fire" style="padding: 8px 18px;" onclick="app.confirmUploadFile()">Bắt đầu tải lên</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL THÊM ĐẢNG VIÊN MỚI -->
+  <div id="add-member-modal" class="modal">
+    <div class="modal-box-solid">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 14px;">
+        <h3 style="color: var(--fire-red); font-size: 1.15rem; font-weight: 800;">➕ THÊM ĐẢNG VIÊN MỚI VÀO CHI BỘ</h3>
+        <span style="font-size: 1.2rem; color: #888; cursor: pointer;" onclick="app.closeAddMemberModal()">✕</span>
+      </div>
+      <div class="form-row">
+        <label>Họ và tên đầy đủ (*):</label>
+        <input type="text" id="new-name" placeholder="Ví dụ: Nguyễn Thị Mai Hằng...">
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div class="form-row">
+          <label>Ngày sinh (*):</label>
+          <input type="text" id="new-dob" placeholder="dd/mm/yyyy (ví dụ: 15/08/1978)">
+        </div>
+        <div class="form-row">
+          <label>Giới tính:</label>
+          <select id="new-gender">
+            <option value="Nữ">Nữ</option>
+            <option value="Nam">Nam</option>
+          </select>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div class="form-row">
+          <label>Số thẻ Đảng viên:</label>
+          <input type="text" id="new-card" placeholder="Số thẻ hoặc ĐV-...">
+        </div>
+        <div class="form-row">
+          <label>Tổ sinh hoạt (*):</label>
+          <select id="new-group">
+            <option value="TỔ KHỐI I">Tổ Khối I</option>
+            <option value="TỔ KHỐI II">Tổ Khối II</option>
+            <option value="TỔ KHỐI III">Tổ Khối III</option>
+            <option value="TỔ KHỐI IV">Tổ Khối IV</option>
+            <option value="TỔ KHỐI V">Tổ Khối V</option>
+            <option value="TỔ VĂN PHÒNG">Tổ Văn Phòng</option>
+          </select>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div class="form-row">
+          <label>Ngày vào Đảng:</label>
+          <input type="text" id="new-join" placeholder="dd/mm/yyyy">
+        </div>
+        <div class="form-row">
+          <label>Ngày chính thức:</label>
+          <input type="text" id="new-official" placeholder="dd/mm/yyyy">
+        </div>
+      </div>
+      <div style="background: #fff8e1; border-left: 3px solid var(--gold); padding: 8px 12px; font-size: 0.82rem; margin-top: 5px; margin-bottom: 15px;">
+        <strong>Hệ thống tự động:</strong> Tạo tài khoản dạng <code>tên.họ</code> (ghép thêm năm sinh nếu trùng họ tên). Mật khẩu mặc định là <code>ChiBo@2026</code>.
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn btn-sub" onclick="app.closeAddMemberModal()">Hủy bỏ</button>
+        <button class="btn btn-fire" style="padding: 8px 16px;" onclick="app.saveNewMember()">Xác nhận thêm Đảng viên</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL XÁC NHẬN XÓA ĐẢNG VIÊN -->
+  <div id="delete-member-modal" class="modal">
+    <div class="modal-box-solid" style="border-top: 5px solid var(--danger);">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 14px;">
+        <h3 style="color: var(--danger); font-size: 1.15rem; font-weight: 800;">⚠️ XÁC NHẬN XÓA ĐẢNG VIÊN</h3>
+        <span style="font-size: 1.2rem; color: #888; cursor: pointer;" onclick="app.closeDeleteMemberModal()">✕</span>
+      </div>
+      <p style="font-size: 0.9rem; line-height: 1.5; color: #333; margin-bottom: 15px;">
+        Đồng chí Quản trị viên có chắc chắn muốn xóa Đảng viên này khỏi Chi bộ 2?
+      </p>
+      <div style="background: #ffebee; border-left: 4px solid var(--danger); padding: 12px 14px; border-radius: 4px; font-size: 0.88rem; margin-bottom: 18px; line-height: 1.6;">
+        • Họ và tên: <strong id="del-name" style="color: var(--danger);">--</strong><br>
+        • Số thẻ Đảng: <strong id="del-card">--</strong><br>
+        • Tài khoản đăng nhập: <strong id="del-username" style="color: #850000; font-family: monospace;">--</strong><br>
+        • Tổ sinh hoạt: <span id="del-group">--</span>
+      </div>
+      <p style="font-size: 0.82rem; color: #c0392b; margin-bottom: 20px; font-style: italic;">
+        * Cảnh báo: Thao tác này sẽ xóa vĩnh viễn toàn bộ hồ sơ điện tử và tự động vô hiệu hóa tài khoản đăng nhập của Đảng viên này.
+      </p>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn btn-sub" onclick="app.closeDeleteMemberModal()">Hủy bỏ</button>
+        <button class="btn btn-fire" style="background: var(--danger); padding: 8px 18px;" onclick="app.confirmDeleteMember()">Xác nhận xóa Đảng viên</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL MASTER DOSSIER (DUYỆT TOÀN DIỆN 34 MỤC) -->
+  <div id="dossier-modal" class="modal">
+    <div class="modal-dossier">
+      <div class="dossier-head">
+        <div>
+          <h3 id="dos-name" style="color: var(--gold); font-size: 1.15rem;">HỒ SƠ ĐẢNG VIÊN</h3>
+          <p id="dos-sub" style="font-size: 0.8rem; opacity: 0.9;"></p>
+        </div>
+        <button class="btn-exit" onclick="app.closeDossierModal()">ĐÓNG CỬA SỔ [X]</button>
+      </div>
+      <div class="dossier-body">
+        <div class="dossier-nav">
+          <button class="dossier-tab-btn active" id="tab-dos-1" onclick="app.switchDossierTab(1)">I. Đánh giá định kỳ (4) <span id="badge-dos-1" class="badge badge-done">0</span></button>
+          <button class="dossier-tab-btn" id="tab-dos-2" onclick="app.switchDossierTab(2)">II. Hồ sơ kiểm tra (13)[cite: 2, 7] <span id="badge-dos-2" class="badge badge-wait">0</span></button>
+          <button class="dossier-tab-btn" id="tab-dos-3" onclick="app.switchDossierTab(3)">III. Hồ sơ giám sát (17)[cite: 2, 7] <span id="badge-dos-3" class="badge badge-miss">0</span></button>
+        </div>
+        <div class="dossier-content" id="dos-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL XEM PDF -->
+  <div id="pdf-viewer-modal" class="modal">
+    <div class="modal-pdf">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 8px;">
+        <h3 id="pdf-title" style="color: var(--deep-red); font-size: 1rem;">Xem văn bản PDF</h3>
+        <button class="btn btn-sub" onclick="app.closePDFModal()">Đóng cửa sổ [X]</button>
+      </div>
+      <iframe id="pdf-frame" class="pdf-frame" src=""></iframe>
+    </div>
+  </div>
+
+  <!-- MODAL SỬA THÔNG TIN CÁ NHÂN -->
+  <div id="profile-modal" class="modal">
+    <div class="modal-box-solid">
+      <h3 style="color: var(--fire-red); margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 8px;">CHỈNH SỬA THÔNG TIN ĐẢNG VIÊN</h3>
+      <div class="form-row">
+        <label>Họ và tên:</label>
+        <input type="text" id="prof-name">
+      </div>
+      <div class="form-row">
+        <label>Số thẻ Đảng viên:</label>
+        <input type="text" id="prof-card">
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div class="form-row">
+          <label>Ngày sinh:</label>
+          <input type="text" id="prof-dob">
+        </div>
+        <div class="form-row">
+          <label>Tổ sinh hoạt:</label>
+          <input type="text" id="prof-group">
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div class="form-row">
+          <label>Ngày vào Đảng:</label>
+          <input type="text" id="prof-join">
+        </div>
+        <div class="form-row">
+          <label>Ngày chính thức:</label>
+          <input type="text" id="prof-official">
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 15px;">
+        <button class="btn btn-sub" onclick="app.closeEditProfileModal()">Hủy</button>
+        <button class="btn btn-fire" onclick="app.saveProfile()">Lưu thông tin</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ĐỔI MẬT KHẨU -->
+  <div id="pwd-modal" class="modal">
+    <div class="modal-box-solid">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f2f6; padding-bottom: 10px; margin-bottom: 14px;">
+        <h3 style="color: var(--fire-red); font-size: 1.15rem; font-weight: 800;">ĐỔI MẬT KHẨU TÀI KHOẢN</h3>
+        <span style="font-size: 1.2rem; color: #888; cursor: pointer;" onclick="app.closePassModal()">✕</span>
+      </div>
+      <p id="pwd-alert" style="font-size: 0.85rem; color: #555; background: #fff8e1; border-left: 3.5px solid var(--gold); padding: 8px 12px; border-radius: 4px; margin-bottom: 16px; line-height: 1.4;"></p>
+      <div class="form-row">
+        <label>Mật khẩu mới:</label>
+        <input type="password" id="p-new" placeholder="Nhập ít nhất 6 ký tự...">
+      </div>
+      <div class="form-row">
+        <label>Xác nhận mật khẩu mới:</label>
+        <input type="password" id="p-renew" placeholder="Nhập lại mật khẩu mới...">
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px;">
+        <button class="btn btn-sub" id="p-cancel" onclick="app.closePassModal()">Hủy bỏ</button>
+        <button class="btn btn-fire" style="padding: 8px 16px;" onclick="app.savePassword()">Cập nhật mật khẩu</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Hệ thống số hóa hồ sơ Đảng viên - Chi bộ 2 - Đảng bộ Trường TH&THCS Tân Đồng
+  </footer>
+
+  <script>
+    // 13 MỤC KIỂM TRA ĐẢNG VIÊN[cite: 2, 7]
+    const LIST_KT = [
+      { id: "kt_01", title: "1. Kế hoạch kiểm tra đảng viên" },
+      { id: "kt_02", title: "2. Quyết định kiểm tra" },
+      { id: "kt_03", title: "3. Đề cương yêu cầu đảng viên báo cáo" },
+      { id: "kt_04", title: "4. Báo cáo tự kiểm tra của đảng viên theo đề cương" },
+      { id: "kt_05", title: "5. Các tài liệu, minh chứng liên quan đến nội dung kiểm tra" },
+      { id: "kt_06", title: "6. Biên bản làm việc của tổ kiểm tra với đảng viên" },
+      { id: "kt_07", title: "7. Biên bản kiểm tra, xác minh hoặc phiếu ghi nhận thông tin" },
+      { id: "kt_08", title: "8. Dự thảo báo cáo kết quả kiểm tra" },
+      { id: "kt_09", title: "9. Biên bản họp chi bộ/cấp ủy nghe và xem xét kết quả" },
+      { id: "kt_10", title: "10. Báo cáo kết quả kiểm tra" },
+      { id: "kt_11", title: "11. Thông báo hoặc kết luận kiểm tra đối với đảng viên" },
+      { id: "kt_12", title: "12. Báo cáo khắc phục hạn chế, khuyết điểm sau kiểm tra" },
+      { id: "kt_13", title: "13. Các văn bản phát sinh khác trong quá trình kiểm tra" }
+    ];
+
+    // 17 MỤC GIÁM SÁT CHUYÊN ĐỀ[cite: 2, 7]
+    const LIST_GS = [
+      { id: "gs_01", title: "1. Chương trình kiểm tra, giám sát năm có nội dung giám sát" },
+      { id: "gs_02", title: "2. Kế hoạch giám sát chuyên đề" },
+      { id: "gs_03", title: "3. Quyết định thành lập tổ/đoàn giám sát và quyết định giám sát" },
+      { id: "gs_04", title: "4. Đề cương gợi ý báo cáo đối với đảng viên được giám sát" },
+      { id: "gs_05", title: "5. Lịch làm việc của tổ/đoàn giám sát" },
+      { id: "gs_06", title: "6. Báo cáo của đảng viên được giám sát" },
+      { id: "gs_07", title: "7. Hồ sơ, tài liệu, minh chứng do đảng viên cung cấp" },
+      { id: "gs_08", title: "8. Các tài liệu do tổ giám sát thu thập, nghiên cứu" },
+      { id: "gs_09", title: "9. Biên bản làm việc với đảng viên" },
+      { id: "gs_10", title: "10. Biên bản làm việc với tổ chức/cá nhân có liên quan" },
+      { id: "gs_11", title: "11. Báo cáo kết quả thẩm tra, xác minh làm rõ nội dung" },
+      { id: "gs_12", title: "12. Dự thảo báo cáo kết quả giám sát" },
+      { id: "gs_13", title: "13. Biên bản hội nghị/chi bộ xem xét kết quả giám sát" },
+      { id: "gs_14", title: "14. Báo cáo kết quả giám sát chuyên đề" },
+      { id: "gs_15", title: "15. Thông báo kết luận giám sát chuyên đề đối với đảng viên" },
+      { id: "gs_16", title: "16. Kế hoạch/báo cáo khắc phục hạn chế sau giám sát" },
+      { id: "gs_17", title: "17. Hồ sơ theo dõi việc thực hiện kết luận sau giám sát" }
+    ];
+
+    // DỮ LIỆU BAN ĐẦU 29 ĐẢNG VIÊN CHI BỘ 2
+    const DEFAULT_MEMBERS = [
+      {"stt": 1, "username": "nu.le", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Lê Thị Nữ", "cardId": "034171008619", "dob": "19/08/1971", "gender": "Nữ", "group": "TỔ KHỐI I", "joinDate": "21/12/2001", "officialDate": "21/12/2002", "rank": "Hoàn thành xuất sắc", "docs": { "doc_camket": [{ name: "Camket_LeThiNu_2026.pdf", title: "Bản cam kết tu dưỡng năm 2026", period: "Năm 2026", date: "10/01/2026", url: "" }], "doc_kiemdiem": [{ name: "Kiemdiem_LeThiNu.pdf", title: "Bản kiểm điểm năm 2025", period: "Năm 2025", date: "02/09/2026", url: "" }], "doc_phieu213": [{ name: "Phieu213_LeThiNu.pdf", title: "Phiếu nhận xét nơi cư trú 213", period: "Năm 2026", date: "05/09/2026", url: "" }] }},
+      {"stt": 2, "username": "hao.phan", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Phan Thị Hảo", "cardId": "42178000838", "dob": "11/11/1978", "gender": "Nữ", "group": "TỔ KHỐI I", "joinDate": "12/10/2009", "officialDate": "12/10/2010", "rank": "Hoàn thành tốt", "docs": { "doc_camket": [{ name: "Camket_PhanThiHao.pdf", title: "Bản cam kết tu dưỡng năm 2026", period: "Năm 2026", date: "12/01/2026", url: "" }] }},
+      {"stt": 3, "username": "tham.ninh", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Ninh Thị Thắm", "cardId": "034182012848", "dob": "01/11/1982", "gender": "Nữ", "group": "TỔ KHỐI I", "joinDate": "01/08/2018", "officialDate": "01/08/2019", "rank": "Hoàn thành", "docs": {}},
+      {"stt": 4, "username": "mo.le", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Lê Thị Mơ", "cardId": "034180010387", "dob": "23/05/1980", "gender": "Nữ", "group": "TỔ KHỐI I", "joinDate": "25/08/2007", "officialDate": "25/08/2008", "rank": "Hoàn thành tốt", "docs": { "doc_camket": [{ name: "Camket_LeThiMo.pdf", title: "Bản cam kết tu dưỡng năm 2026", period: "Năm 2026", date: "11/01/2026", url: "" }] }},
+      {"stt": 5, "username": "mai.le", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Lê Thị Thanh Mai", "cardId": "ĐV-05", "dob": "--", "gender": "Nữ", "group": "TỔ KHỐI I", "joinDate": "15/02/2015", "officialDate": "15/02/2016", "rank": "Hoàn thành tốt", "docs": {}},
+      {"stt": 6, "username": "dao.hoang", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Hoàng Thị Hồng Đào", "cardId": "038180014514", "dob": "02/01/1980", "gender": "Nữ", "group": "TỔ KHỐI II", "joinDate": "31/8/2013", "officialDate": "31/8/2014", "rank": "Hoàn thành tốt", "docs": { "doc_camket": [{ name: "Camket_Dao.pdf", title: "Bản cam kết tu dưỡng", period: "Năm 2026", date: "10/01/2026", url: "" }] }},
+      {"stt": 7, "username": "thuy.ng.", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Ng. Thị Thanh Thúy", "cardId": "070178009532", "dob": "02/08/1978", "gender": "Nữ", "group": "TỔ KHỐI II", "joinDate": "11/07/2006", "officialDate": "11/07/2007", "rank": "Hoàn thành tốt", "docs": {}},
+      {"stt": 8, "username": "huong.tran", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Trần Thị Hường", "cardId": "034182012651", "dob": "28/02/1982", "gender": "Nữ", "group": "TỔ KHỐI II", "joinDate": "12/12/2017", "officialDate": "12/12/2018", "rank": "Hoàn thành xuất sắc", "docs": { "doc_camket": [{ name: "Camket_TranThiHuong.pdf", title: "Bản cam kết tu dưỡng", period: "Năm 2026", date: "14/01/2026", url: "" }] }},
+      {"stt": 9, "username": "hue.bui", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Bùi Thị Minh Huệ", "cardId": "034180010326", "dob": "14/11/1980", "gender": "Nữ", "group": "TỔ KHỐI II", "joinDate": "14/09/2016", "officialDate": "14/09/2017", "rank": "Hoàn thành", "docs": {}},
+      {"stt": 10, "username": "hien.nguyen", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Nguyễn Thị Thu Hiền", "cardId": "56036048", "dob": "15/02/1976", "gender": "Nữ", "group": "TỔ KHỐI II", "joinDate": "01/08/2018", "officialDate": "01/08/2019", "rank": "Hoàn thành tốt", "docs": {}},
+      {"stt": 11, "username": "ha.le", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Lê Thị Thanh Hà", "cardId": "042181001753", "dob": "02/06/1981", "gender": "Nữ", "group": "TỔ KHỐI II", "joinDate": "28/06/2007", "officialDate": "28/06/2008", "rank": "Hoàn thành tốt", "docs": { "doc_camket": [{ name: "Camket_LeThiThanhHa.pdf", title: "Bản cam kết năm 2026", period: "Năm 2026", date: "12/01/2026", url: "" }] }},
+      {"stt": 12, "username": "khanh.pham", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Phạm Thị Kim Khánh", "cardId": "042175001860", "dob": "28/12/1975", "gender": "Nữ", "group": "TỔ KHỐI III", "joinDate": "22/07/1998", "officialDate": "22/07/1999", "rank": "Hoàn thành xuất sắc", "docs": { "doc_camket": [{ name: "Camket_PhamThiKimKhanh.pdf", title: "Bản cam kết năm 2026", period: "Năm 2026", date: "09/01/2026", url: "" }] }},
+      {"stt": 13, "username": "huyen.mai", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Mai Thị Thanh Huyền", "cardId": "034176011931", "dob": "22/12/1976", "gender": "Nữ", "group": "TỔ KHỐI III", "joinDate": "26/7/2007", "officialDate": "26/7/2008", "rank": "Hoàn thành tốt", "docs": {}},
+      {"stt": 14, "username": "diep.ngo", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Ngô Thị Ngọc Diệp", "cardId": "046170000811", "dob": "01/06/1970", "gender": "Nữ", "group": "TỔ KHỐI III", "joinDate": "10/06/2011", "officialDate": "10/06/2012", "rank": "Hoàn thành tốt", "docs": { "doc_camket": [{ name: "Camket_NgoThiNgocDiep.pdf", title: "Bản cam kết", period: "Năm 2026", date: "10/01/2026", url: "" }] }},
+      {"stt": 15, "username": "huyen.thai", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Thái Thị Thu Huyền", "cardId": "070186001450", "dob": "03/09/1986", "gender": "Nữ", "group": "TỔ KHỐI III", "joinDate": "08/04/2016", "officialDate": "08/04/2017", "rank": "Hoàn thành tốt", "docs": {}},
+      {"stt": 16, "username": "huong.le", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Lê Thị Thu Hương", "cardId": "ĐV-16", "dob": "--", "gender": "Nữ", "group": "TỔ KHỐI III", "joinDate": "29/04/2008", "officialDate": "29/04/2009", "rank": "Hoàn thành tốt", "docs": { "doc_camket": [{ name: "Camket_2026_HuongLe.pdf", title: "Bản cam kết", period: "Năm 2026", date: "08/01/2026", url: "" }] }},
+      {"stt": 17, "username": "tinh.nguyen", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Nguyễn Thị Tịnh", "cardId": "042173003293", "dob": "26/10/1973", "gender": "Nữ", "group": "TỔ KHỐI IV", "joinDate": "26/02/2002", "officialDate": "26/02/2003", "rank": "Hoàn thành", "docs": {}},
+      {"stt": 18, "username": "hai.tran", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Trần Đức Hải", "cardId": "070183008063", "dob": "05/10/1983", "gender": "Nữ", "group": "TỔ KHỐI IV", "joinDate": "23/04/2011", "officialDate": "23/04/2012", "rank": "Hoàn thành tốt", "docs": { "doc_camket": [{ name: "Camket_TranDucHai.pdf", title: "Bản cam kết", period: "Năm 2026", date: "15/01/2026", url: "" }] }},
+      {"stt": 19, "username": "luong.vu", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Vũ Thị Lương", "cardId": "ĐV-19", "dob": "25/03/1993", "gender": "Nữ", "group": "TỔ KHỐI IV", "joinDate": "28/8/2024", "officialDate": "28/08/2025", "rank": "Chưa xếp loại", "docs": {}},
+      {"stt": 20, "username": "nhi.nguyen", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Nguyễn Thị Nhi", "cardId": "083191012004", "dob": "17/09/1991", "gender": "Nữ", "group": "TỔ KHỐI IV", "joinDate": "06/07/2012", "officialDate": "06/07/2013", "rank": "Hoàn thành tốt", "docs": { "doc_camket": [{ name: "Camket_NguyenThiNhi.pdf", title: "Bản cam kết", period: "Năm 2026", date: "10/01/2026", url: "" }] }},
+      {"stt": 21, "username": "nhan.truong", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Trương Thị Nhạn", "cardId": "038177011905", "dob": "18/04/1977", "gender": "Nữ", "group": "TỔ KHỐI IV", "joinDate": "25/06/2026", "officialDate": "25/06/2026", "rank": "Hoàn thành", "docs": {}},
+      {"stt": 22, "username": "khang.pham", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Phạm Duy Kháng", "cardId": "034072009972", "dob": "22/08/1972", "gender": "Nam", "group": "TỔ KHỐI IV", "joinDate": "--", "officialDate": "29/04/2009", "rank": "Hoàn thành tốt", "docs": {}},
+      {"stt": 23, "username": "nga.nguyen", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Nguyễn Thị Quỳnh Nga", "cardId": "040182009473", "dob": "05/11/1982", "gender": "Nữ", "group": "TỔ KHỐI V", "joinDate": "08/07/2015", "officialDate": "08/07/2016", "rank": "Hoàn thành tốt", "docs": { "doc_camket": [{ name: "Camket_QuynhNga.pdf", title: "Bản cam kết", period: "Năm 2026", date: "11/01/2026", url: "" }] }},
+      {"stt": 24, "username": "hieu.do", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Đỗ Văn Hiếu", "cardId": "038081032589", "dob": "05/07/1981", "gender": "Nam", "group": "TỔ KHỐI V", "joinDate": "25/07/2019", "officialDate": "25/07/2020", "rank": "Hoàn thành", "docs": {}},
+      {"stt": 25, "username": "dinh.truong", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Trương Thị Định", "cardId": "038178012198", "dob": "03/03/1978", "gender": "Nữ", "group": "TỔ KHỐI V", "joinDate": "11/02/2022", "officialDate": "11/02/2023", "rank": "Hoàn thành tốt", "docs": { "doc_camket": [{ name: "Camket_TruongThiDinh.pdf", title: "Bản cam kết", period: "Năm 2026", date: "12/01/2026", url: "" }] }},
+      {"stt": 26, "username": "huu.vu", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Vũ Văn Hữu", "cardId": "030078009587", "dob": "19/10/1978", "gender": "Nam", "group": "TỔ KHỐI V", "joinDate": "23/08/2008", "officialDate": "23/08/2009", "rank": "Hoàn thành tốt", "docs": {}},
+      {"stt": 27, "username": "thuy.mai", "password": "Thuy@1000", "mustChange": false, "role": "admin", "fullName": "Mai Thị Thúy", "cardId": "ĐV-27", "dob": "13/04/1985", "gender": "Nữ", "group": "TỔ KHỐI V", "joinDate": "06/12/2024", "officialDate": "06/12/2025", "rank": "Hoàn thành xuất sắc", "docs": {}},
+      {"stt": 28, "username": "linh.hoang", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Hoàng Thị Ngọc Linh", "cardId": "ĐV-28", "dob": "20/03/1995", "gender": "Nữ", "group": "TỔ KHỐI V", "joinDate": "26/02/2026", "officialDate": "26/02/2027", "rank": "Chưa xếp loại", "docs": {}},
+      {"stt": 29, "username": "anh.dinh", "password": "ChiBo@2026", "mustChange": true, "role": "user", "fullName": "Đinh Trương Ngọc Anh", "cardId": "ĐV-29", "dob": "18/06/1998", "gender": "Nữ", "group": "TỔ KHỐI V", "joinDate": "17/07/2026", "officialDate": "17/07/2027", "rank": "Chưa xếp loại", "docs": {}}
+    ];
+
+    // KHỞI TẠO CSDL
+    function loadDatabase() {
+      const saved = localStorage.getItem("CHIBO2_DATABASE_V5");
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          console.error("Lỗi đọc LocalStorage", e);
+        }
+      }
+      return JSON.parse(JSON.stringify(DEFAULT_MEMBERS));
+    }
+
+    const DB = {
+      currentUser: null,
+      currentUploadKey: null,
+      currentUploadTitle: null,
+      dossierUser: null,
+      pendingDeleteUser: null,
+      members: loadDatabase(),
+      save: function() {
+        localStorage.setItem("CHIBO2_DATABASE_V5", JSON.stringify(this.members));
+      }
+    };
+
+    function syncDocs(m) {
+      if (!m.docs) m.docs = {};
+      ['doc_camket', 'doc_kiemdiem', 'doc_phieu213', 'doc_khenthuong'].forEach(k => {
+        if (!m.docs[k]) m.docs[k] = [];
+      });
+      LIST_KT.forEach(it => { if (!m.docs[it.id]) m.docs[it.id] = []; });
+      LIST_GS.forEach(it => { if (!m.docs[it.id]) m.docs[it.id] = []; });
+    }
+    DB.members.forEach(m => syncDocs(m));
+
+    function removeVietnameseTones(str) {
+      str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+      str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+      str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+      str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+      str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+      str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+      str = str.replace(/đ/g, "d");
+      str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "a");
+      str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "e");
+      str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "i");
+      str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "o");
+      str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "u");
+      str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "y");
+      str = str.replace(/Đ/g, "d");
+      return str.toLowerCase().trim();
+    }
+
+    function generateUsername(fullName, dob) {
+      const cleanName = removeVietnameseTones(fullName);
+      const parts = cleanName.split(/\s+/).filter(Boolean);
+      if (parts.length === 0) return "dangvien";
+      
+      const firstName = parts[parts.length - 1];
+      const lastName = parts[0];
+      let baseUsername = `${firstName}.${lastName}`;
+
+      let birthYear = "";
+      const yearMatch = dob.match(/\d{4}/);
+      if (yearMatch) birthYear = yearMatch[0];
+
+      const isExist = DB.members.some(m => m.username.toLowerCase() === baseUsername.toLowerCase());
+      if (isExist && birthYear) {
+        return `${baseUsername}${birthYear}`;
+      }
+      return baseUsername;
+    }
+
+    const app = {
+      toggleGroup: (id) => {
+        const el = document.getElementById(id);
+        const arr = document.getElementById(id + "-arr");
+        if (el.style.display === "none") {
+          el.style.display = "block";
+          arr.innerText = "▼";
+        } else {
+          el.style.display = "none";
+          arr.innerText = "►";
+        }
+      },
+
+      login: () => {
+        const u = document.getElementById("log-acc").value.trim().toLowerCase();
+        const p = document.getElementById("log-pass").value.trim();
+
+        if (!u || !p) return alert("Vui lòng nhập đầy đủ Tên đăng nhập và Mật khẩu!");
+
+        const user = DB.members.find(m => m.username.toLowerCase() === u && m.password === p);
+        if (!user) return alert("Tên đăng nhập hoặc mật khẩu không chính xác!");
+
+        DB.currentUser = user;
+        document.getElementById("view-login").style.display = "none";
+        document.getElementById("auth-panel").style.display = "flex";
+        document.getElementById("user-display").innerText = `${user.fullName} (${user.role === 'admin' ? 'Quản trị viên & Đảng viên' : 'Đảng viên'})`;
+
+        if (user.mustChange) {
+          app.openPassModal(true);
+        }
+
+        if (user.role === "admin") {
+          document.getElementById("admin-switch-bar").style.display = "flex";
+          app.switchAdminView("ADMIN");
+        } else {
+          document.getElementById("admin-switch-bar").style.display = "none";
+          document.getElementById("view-admin").style.display = "none";
+          document.getElementById("view-member").style.display = "block";
+          app.initDynamicDocGroups();
+          app.renderMember();
+        }
+      },
+
+      logout: () => {
+        DB.currentUser = null;
+        document.getElementById("admin-switch-bar").style.display = "none";
+        document.getElementById("view-admin").style.display = "none";
+        document.getElementById("view-member").style.display = "none";
+        document.getElementById("auth-panel").style.display = "none";
+        document.getElementById("log-acc").value = "";
+        document.getElementById("log-pass").value = "";
+        document.getElementById("view-login").style.display = "block";
+      },
+
+      switchAdminView: (mode) => {
+        const btnAdmin = document.getElementById("btn-mode-admin");
+        const btnMember = document.getElementById("btn-mode-member");
+
+        if (mode === "ADMIN") {
+          btnAdmin.classList.add("active");
+          btnMember.classList.remove("active");
+          document.getElementById("view-member").style.display = "none";
+          document.getElementById("view-admin").style.display = "block";
+          app.renderAdmin();
+        } else {
+          btnMember.classList.add("active");
+          btnAdmin.classList.remove("active");
+          document.getElementById("view-admin").style.display = "none";
+          document.getElementById("view-member").style.display = "block";
+          app.initDynamicDocGroups();
+          app.renderMember();
+        }
+      },
+
+      toggleRowDeleteBtn: (username) => {
+        const btn = document.getElementById(`btn-del-${username}`);
+        if (!btn) return;
+        btn.style.display = (btn.style.display === "none" || !btn.style.display) ? "inline-block" : "none";
+      },
+
+      openDeleteModal: (username) => {
+        const u = DB.members.find(m => m.username === username);
+        if (!u) return;
+
+        if (u.role === "admin") {
+          return alert("Không thể xóa tài khoản Quản trị viên (Admin) của Chi bộ!");
+        }
+
+        DB.pendingDeleteUser = u;
+        document.getElementById("del-name").innerText = u.fullName;
+        document.getElementById("del-card").innerText = u.cardId;
+        document.getElementById("del-username").innerText = u.username;
+        document.getElementById("del-group").innerText = u.group;
+
+        document.getElementById("delete-member-modal").style.display = "flex";
+      },
+
+      closeDeleteMemberModal: () => {
+        DB.pendingDeleteUser = null;
+        document.getElementById("delete-member-modal").style.display = "none";
+      },
+
+      confirmDeleteMember: () => {
+        if (!DB.pendingDeleteUser) return;
+        const targetUsername = DB.pendingDeleteUser.username;
+        const targetName = DB.pendingDeleteUser.fullName;
+
+        DB.members = DB.members.filter(m => m.username !== targetUsername);
+        DB.members.forEach((m, i) => { m.stt = i + 1; });
+        DB.save();
+
+        alert(`Đã xóa thành công Đảng viên: ${targetName}!\nTài khoản ${targetUsername} đã bị hủy trên hệ thống.\nTổng số Đảng viên hiện tại: ${DB.members.length}`);
+
+        app.closeDeleteMemberModal();
+        app.renderAdmin();
+      },
+
+      openAddMemberModal: () => {
+        document.getElementById("new-name").value = "";
+        document.getElementById("new-dob").value = "";
+        document.getElementById("new-card").value = "";
+        document.getElementById("new-join").value = "";
+        document.getElementById("new-official").value = "";
+        document.getElementById("add-member-modal").style.display = "flex";
+      },
+
+      closeAddMemberModal: () => {
+        document.getElementById("add-member-modal").style.display = "none";
+      },
+
+      saveNewMember: () => {
+        const name = document.getElementById("new-name").value.trim();
+        const dob = document.getElementById("new-dob").value.trim();
+        const gender = document.getElementById("new-gender").value;
+        const group = document.getElementById("new-group").value;
+        let card = document.getElementById("new-card").value.trim();
+        const joinDate = document.getElementById("new-join").value.trim() || "--";
+        const officialDate = document.getElementById("new-official").value.trim() || "--";
+
+        if (!name) return alert("Vui lòng nhập họ và tên Đảng viên!");
+        if (!dob) return alert("Vui lòng nhập ngày sinh để phân định tài khoản!");
+
+        const newStt = DB.members.length + 1;
+        if (!card) card = `ĐV-${newStt}`;
+
+        const username = generateUsername(name, dob);
+
+        const newMember = {
+          stt: newStt,
+          username: username,
+          password: "ChiBo@2026",
+          mustChange: true,
+          role: "user",
+          fullName: name,
+          cardId: card,
+          dob: dob,
+          gender: gender,
+          group: group,
+          joinDate: joinDate,
+          officialDate: officialDate,
+          rank: "Chưa xếp loại",
+          docs: {}
+        };
+
+        syncDocs(newMember);
+        DB.members.push(newMember);
+        DB.save();
+
+        alert(`Đã thêm thành công Đảng viên: ${name}!\n• Tên đăng nhập được cấp: ${username}\n• Mật khẩu mặc định: ChiBo@2026\n• Tổng số Đảng viên hiện tại: ${DB.members.length}`);
+        
+        app.closeAddMemberModal();
+        app.renderAdmin();
+      },
+
+      renderAdmin: () => {
+        let full = 0, pending = 0, totalDocs = 0;
+        let cGrp1 = 0, cGrp2 = 0, cGrp3 = 0;
+
+        DB.members.forEach(u => {
+          let g1 = (u.docs.doc_camket.length > 0 ? 1 : 0) + (u.docs.doc_kiemdiem.length > 0 ? 1 : 0) + (u.docs.doc_phieu213.length > 0 ? 1 : 0);
+          if (g1 === 3) full++;
+          else pending++;
+
+          ['doc_camket', 'doc_kiemdiem', 'doc_phieu213', 'doc_khenthuong'].forEach(k => {
+            if (u.docs[k]) { totalDocs += u.docs[k].length; cGrp1 += u.docs[k].length; }
+          });
+          LIST_KT.forEach(it => {
+            if (u.docs[it.id]) { totalDocs += u.docs[it.id].length; cGrp2 += u.docs[it.id].length; }
+          });
+          LIST_GS.forEach(it => {
+            if (u.docs[it.id]) { totalDocs += u.docs[it.id].length; cGrp3 += u.docs[it.id].length; }
+          });
+        });
+
+        document.getElementById("stat-total").innerText = DB.members.length;
+        document.getElementById("stat-full").innerText = full;
+        document.getElementById("stat-pending").innerText = pending;
+        document.getElementById("stat-total-docs").innerText = totalDocs;
+
+        let maxG1 = DB.members.length * 3;
+        let p1 = maxG1 > 0 ? Math.min(100, Math.round((cGrp1 / maxG1) * 100)) : 0;
+        document.getElementById("rate-grp1").innerText = `${p1}% (${cGrp1} VB)`;
+        document.getElementById("bar-grp1").style.width = p1 + "%";
+
+        document.getElementById("rate-grp2").innerText = `${cGrp2} văn bản`;
+        document.getElementById("bar-grp2").style.width = Math.min(100, cGrp2 * 10) + "%";
+
+        document.getElementById("rate-grp3").innerText = `${cGrp3} văn bản`;
+        document.getElementById("bar-grp3").style.width = Math.min(100, cGrp3 * 10) + "%";
+
+        app.filterTable();
+      },
+
+      filterTable: () => {
+        const txt = document.getElementById("adm-search").value.toLowerCase();
+        const grpFilter = document.getElementById("adm-filter-group").value;
+        const mode = document.getElementById("adm-filter").value;
+        const tbody = document.getElementById("adm-tbody");
+        tbody.innerHTML = "";
+
+        let idx = 1;
+        DB.members.forEach(u => {
+          if (txt && !u.fullName.toLowerCase().includes(txt) && !u.cardId.toLowerCase().includes(txt) && !u.username.toLowerCase().includes(txt)) return;
+          if (grpFilter !== "ALL" && u.group !== grpFilter) return;
+
+          const g1 = (u.docs.doc_camket.length > 0 ? 1 : 0) + (u.docs.doc_kiemdiem.length > 0 ? 1 : 0) + (u.docs.doc_phieu213.length > 0 ? 1 : 0);
+          let state = "PART";
+          let badge = `<span class="badge badge-wait">Thiếu (${g1}/3)</span>`;
+          if (g1 === 3) { state = "FULL"; badge = '<span class="badge badge-done">Đủ (3/3)</span>'; }
+          if (g1 === 0) { state = "NONE"; badge = '<span class="badge badge-miss">Chưa nộp (0/3)</span>'; }
+
+          if (mode !== "ALL" && mode !== state) return;
+
+          let ktCount = 0, gsCount = 0;
+          LIST_KT.forEach(it => { if (u.docs[it.id]) ktCount += u.docs[it.id].length; });
+          LIST_GS.forEach(it => { if (u.docs[it.id]) gsCount += u.docs[it.id].length; });
+
+          let rankBadge = `<span class="badge badge-tag">${u.rank || '--'}</span>`;
+          if (u.rank === 'Hoàn thành xuất sắc') rankBadge = `<span class="badge badge-done" style="background:#e8f8f5; color:#198754; font-weight:800;">★ Xuất sắc</span>`;
+          if (u.rank === 'Hoàn thành tốt') rankBadge = `<span class="badge" style="background:#e3f2fd; color:#0d47a1; font-weight:700;">Tốt</span>`;
+
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td style="text-align:center;">${idx++}</td>
+            <td>
+              <span class="member-name-btn" onclick="app.toggleRowDeleteBtn('${u.username}')" title="Bấm vào để hiện nút xóa">
+                ${u.fullName} ${u.role === 'admin' ? '<span style="color:red; font-size:0.75rem; font-weight:bold;">(Admin)</span>' : ''}
+              </span>
+              ${u.role !== 'admin' ? `
+                <button id="btn-del-${u.username}" class="btn-delete-row" onclick="app.openDeleteModal('${u.username}')">🗑️ Xóa</button>
+              ` : ''}
+            </td>
+            <td style="font-family:monospace; color:#850000; font-weight:bold;">${u.username}</td>
+            <td style="font-family:monospace; font-weight:bold;">${u.cardId}</td>
+            <td><span class="badge-tag">${u.group}</span></td>
+            <td style="text-align:center;">${u.docs.doc_camket.length > 0 ? `✅ <span style="font-size:0.75rem;">(${u.docs.doc_camket.length})</span>` : '❌'}</td>
+            <td style="text-align:center;">${u.docs.doc_kiemdiem.length > 0 ? `✅ <span style="font-size:0.75rem;">(${u.docs.doc_kiemdiem.length})</span>` : '❌'}</td>
+            <td style="text-align:center;">${u.docs.doc_phieu213.length > 0 ? `✅ <span style="font-size:0.75rem;">(${u.docs.doc_phieu213.length})</span>` : '❌'}</td>
+            <td style="text-align:center;">${ktCount > 0 ? `<span class="badge badge-done">${ktCount} VB</span>` : '<span style="color:#bbb;">0</span>'}</td>
+            <td style="text-align:center;">${gsCount > 0 ? `<span class="badge badge-done">${gsCount} VB</span>` : '<span style="color:#bbb;">0</span>'}</td>
+            <td style="text-align:center;">${badge}</td>
+            <td style="text-align:center;">${rankBadge}</td>
+            <td style="text-align:center;">
+              <button class="btn btn-action" onclick="app.openDossier('${u.username}')">📂 Mở hồ sơ</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      },
+
+      openDossier: (username) => {
+        const u = DB.members.find(m => m.username === username);
+        if (!u) return;
+
+        DB.dossierUser = u;
+        document.getElementById("dos-name").innerText = `HỘP HỒ SƠ ĐIỆN TỬ: ${u.fullName.toUpperCase()}`;
+        document.getElementById("dos-sub").innerText = `Tài khoản: ${u.username} | Số thẻ: ${u.cardId} | ${u.group} | Xếp loại: ${u.rank || 'Chưa xếp loại'}`;
+
+        let c1 = 0, c2 = 0, c3 = 0;
+        ['doc_camket', 'doc_kiemdiem', 'doc_phieu213', 'doc_khenthuong'].forEach(k => { if (u.docs[k]) c1 += u.docs[k].length; });
+        LIST_KT.forEach(it => { if (u.docs[it.id]) c2 += u.docs[it.id].length; });
+        LIST_GS.forEach(it => { if (u.docs[it.id]) c3 += u.docs[it.id].length; });
+
+        document.getElementById("badge-dos-1").innerText = c1 + " tệp";
+        document.getElementById("badge-dos-2").innerText = c2 + " tệp";
+        document.getElementById("badge-dos-3").innerText = c3 + " tệp";
+
+        document.getElementById("dossier-modal").style.display = "flex";
+        app.switchDossierTab(1);
+      },
+
+      closeDossierModal: () => {
+        document.getElementById("dossier-modal").style.display = "none";
+      },
+
+      switchDossierTab: (tabIndex) => {
+        [1, 2, 3].forEach(i => {
+          document.getElementById(`tab-dos-${i}`).classList.remove("active");
+        });
+        document.getElementById(`tab-dos-${tabIndex}`).classList.add("active");
+
+        const container = document.getElementById("dos-content");
+        container.innerHTML = "";
+        const u = DB.dossierUser;
+
+        let items = [];
+        if (tabIndex === 1) {
+          items = [
+            { id: "doc_camket", title: "1. Bản cam kết tu dưỡng, rèn luyện (hằng năm)" },
+            { id: "doc_kiemdiem", title: "2. Bản tự kiểm điểm đánh giá chất lượng (cuối năm)" },
+            { id: "doc_phieu213", title: "3. Phiếu nhận xét nơi cư trú (Quy định 213)" },
+            { id: "doc_khenthuong", title: "4. Quyết định khen thưởng, biểu dương" }
+          ];
+        } else if (tabIndex === 2) {
+          items = LIST_KT;
+        } else {
+          items = LIST_GS;
+        }
+
+        items.forEach(it => {
+          const files = u.docs[it.id] || [];
+          let fileRows = "";
+          if (files.length === 0) {
+            fileRows = `<span style="font-size:0.78rem; color:#999; font-style:italic;">(Chưa có văn bản lưu trữ)</span>`;
+          } else {
+            files.forEach((f, idx) => {
+              fileRows += `
+                <div class="file-item">
+                  <div class="file-info-group">
+                    <span class="badge-period">${f.period || 'Năm 2026'}</span>
+                    <strong>${f.title || f.name}</strong>
+                    <span style="color:#777; font-size:0.75rem;">(${f.name} - Ngày tải: ${f.date})</span>
+                  </div>
+                  <button class="btn btn-action" onclick="app.viewPDF('${it.id}', ${idx}, true)">Xem PDF</button>
+                </div>
+              `;
+            });
+          }
+
+          container.innerHTML += `
+            <div style="padding:10px; border-bottom:1px solid #eee;">
+              <h4 style="font-size:0.86rem; color:var(--deep-red); margin-bottom:5px;">${it.title}</h4>
+              <div style="background:#fcf9f2; padding:6px 10px; border-radius:4px;">${fileRows}</div>
+            </div>
+          `;
+        });
+      },
+
+      printNotice: () => {
+        const missing = DB.members.filter(u => u.docs.doc_camket.length === 0 || u.docs.doc_kiemdiem.length === 0 || u.docs.doc_phieu213.length === 0);
+        
+        let report = `DANH SÁCH ĐẢNG VIÊN CẦN ĐÔN ĐỐC NỘP HỒ SƠ NĂM 2026\n`;
+        report += `Chi bộ 2 - Đảng bộ Trường TH&THCS Tân Đồng (Tổng số: ${DB.members.length} Đảng viên)\n-----------------------------------------\n`;
+        missing.forEach((u, i) => {
+          let missList = [];
+          if (u.docs.doc_camket.length === 0) missList.push("Bản cam kết");
+          if (u.docs.doc_kiemdiem.length === 0) missList.push("Bản tự kiểm điểm");
+          if (u.docs.doc_phieu213.length === 0) missList.push("Phiếu nhận xét 213");
+          report += `${i + 1}. Đ/c ${u.fullName} (${u.group}) - Thiếu: ${missList.join(", ")}\n`;
+        });
+        alert(report);
+      },
+
+      initDynamicDocGroups: () => {
+        const ktBox = document.getElementById("kt-container");
+        ktBox.innerHTML = "";
+        LIST_KT.forEach(it => {
+          ktBox.innerHTML += `
+            <div class="doc-block">
+              <div class="doc-title-bar">
+                <h4>${it.title}</h4>
+                <button class="btn btn-fire" onclick="app.openUploadModal('${it.id}', '${it.title}')">+ Tải PDF</button>
+              </div>
+              <div class="file-list" id="list-${it.id}"></div>
+            </div>
+          `;
+        });
+
+        const gsBox = document.getElementById("gs-container");
+        gsBox.innerHTML = "";
+        LIST_GS.forEach(it => {
+          gsBox.innerHTML += `
+            <div class="doc-block">
+              <div class="doc-title-bar">
+                <h4>${it.title}</h4>
+                <button class="btn btn-fire" onclick="app.openUploadModal('${it.id}', '${it.title}')">+ Tải PDF</button>
+              </div>
+              <div class="file-list" id="list-${it.id}"></div>
+            </div>
+          `;
+        });
+      },
+
+      // HIỂN THỊ DANH SÁCH HỒ SƠ ĐA TỆP CÓ THÔNG TIN THÁNG/NĂM VÀ TÊN VĂN BẢN
+      renderMember: () => {
+        const u = DB.currentUser;
+        if (!u) return;
+
+        document.getElementById("m-name").innerText = u.fullName;
+        document.getElementById("m-card").innerText = u.cardId;
+        document.getElementById("m-dob").innerText = u.dob || "--";
+        document.getElementById("m-group").innerText = u.group;
+        document.getElementById("m-join").innerText = u.joinDate || "--";
+        document.getElementById("m-official").innerText = u.officialDate || "--";
+
+        const allKeys = ['doc_camket', 'doc_kiemdiem', 'doc_phieu213', 'doc_khenthuong', ...LIST_KT.map(x=>x.id), ...LIST_GS.map(x=>x.id)];
+
+        allKeys.forEach(k => {
+          const listContainer = document.getElementById("list-" + k);
+          if (!listContainer) return;
+
+          const files = u.docs[k] || [];
+          if (files.length === 0) {
+            listContainer.innerHTML = `<span style="font-size: 0.78rem; color: #999;">Chưa có tài liệu được lưu.</span>`;
+          } else {
+            let html = '';
+            files.forEach((f, idx) => {
+              html += `
+                <div class="file-item">
+                  <div class="file-info-group">
+                    <span class="badge-period">${f.period || 'Năm 2026'}</span>
+                    <strong>${f.title || f.name}</strong>
+                    <span style="font-size: 0.75rem; color: #888;">(${f.name} - Ngày tải: ${f.date})</span>
+                  </div>
+                  <div style="display:flex; gap:6px;">
+                    <button class="btn btn-action" onclick="app.viewPDF('${k}', ${idx})">Xem PDF</button>
+                    <button class="btn btn-sub" style="font-size:0.75rem; color:red;" onclick="app.deleteFile('${k}', ${idx})">Xóa</button>
+                  </div>
+                </div>
+              `;
+            });
+            listContainer.innerHTML = html;
+          }
+        });
+      },
+
+      // MỞ MODAL TẢI TỆP LÊN VỚI THÔNG TIN THÁNG/NĂM VÀ TÊN VĂN BẢN
+      openUploadModal: (docKey, defaultTitle) => {
+        DB.currentUploadKey = docKey;
+        DB.currentUploadTitle = defaultTitle;
+
+        document.getElementById("upload-category-title").innerText = `Mục nộp: ${defaultTitle}`;
+        document.getElementById("up-docname").value = `${defaultTitle} (Năm 2026)`;
+        document.getElementById("up-year").value = "2026";
+        document.getElementById("up-month").value = "";
+        document.getElementById("up-file").value = "";
+
+        document.getElementById("upload-modal").style.display = "flex";
+      },
+
+      closeUploadModal: () => {
+        document.getElementById("upload-modal").style.display = "none";
+      },
+
+      confirmUploadFile: () => {
+        const fileInput = document.getElementById("up-file");
+        const file = fileInput.files[0];
+        if (!file) return alert("Vui lòng chọn tệp văn bản scan định dạng .PDF!");
+        if (!file.name.toLowerCase().endsWith(".pdf")) return alert("Hệ thống chỉ chấp nhận định dạng .PDF!");
+
+        const docTitle = document.getElementById("up-docname").value.trim() || DB.currentUploadTitle || file.name;
+        const year = document.getElementById("up-year").value;
+        const month = document.getElementById("up-month").value;
+        
+        let periodStr = month ? `${month}/${year}` : `Năm ${year}`;
+
+        const today = new Date();
+        const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+        const blobUrl = URL.createObjectURL(file);
+
+        if (!DB.currentUser.docs[DB.currentUploadKey]) {
+          DB.currentUser.docs[DB.currentUploadKey] = [];
+        }
+
+        DB.currentUser.docs[DB.currentUploadKey].push({
+          name: file.name,
+          title: docTitle,
+          period: periodStr,
+          date: dateStr,
+          url: blobUrl
+        });
+
+        DB.save();
+        alert(`Đã lưu thành công văn bản:\n• ${docTitle}\n• Áp dụng: ${periodStr}`);
+        
+        app.closeUploadModal();
+        app.renderMember();
+      },
+
+      deleteFile: (docKey, index) => {
+        if (!confirm("Đồng chí có chắc chắn muốn xóa văn bản này khỏi hộp lưu trữ?")) return;
+        DB.currentUser.docs[docKey].splice(index, 1);
+        DB.save();
+        alert("Đã xóa tệp thành công!");
+        app.renderMember();
+      },
+
+      viewPDF: (docKey, index, isFromDossier = false) => {
+        const targetUser = isFromDossier ? DB.dossierUser : DB.currentUser;
+        const fileObj = targetUser.docs[docKey][index];
+        if (!fileObj) return;
+
+        if (fileObj.url) {
+          document.getElementById("pdf-title").innerText = `Đang xem: ${fileObj.title || fileObj.name} (${fileObj.period || ''})`;
+          document.getElementById("pdf-frame").src = fileObj.url;
+          document.getElementById("pdf-viewer-modal").style.display = "flex";
+        } else {
+          alert(`Tệp "${fileObj.name}" là dữ liệu mẫu ban đầu. Khi tải văn bản PDF thật lên, hệ thống sẽ mở trọn vẹn văn bản!`);
+        }
+      },
+
+      closePDFModal: () => {
+        document.getElementById("pdf-frame").src = "";
+        document.getElementById("pdf-viewer-modal").style.display = "none";
+      },
+
+      openEditProfileModal: () => {
+        const u = DB.currentUser;
+        document.getElementById("prof-name").value = u.fullName;
+        document.getElementById("prof-card").value = u.cardId;
+        document.getElementById("prof-dob").value = u.dob || "";
+        document.getElementById("prof-group").value = u.group;
+        document.getElementById("prof-join").value = u.joinDate || "";
+        document.getElementById("prof-official").value = u.officialDate || "";
+        document.getElementById("profile-modal").style.display = "flex";
+      },
+
+      closeEditProfileModal: () => {
+        document.getElementById("profile-modal").style.display = "none";
+      },
+
+      saveProfile: () => {
+        const u = DB.currentUser;
+        u.fullName = document.getElementById("prof-name").value.trim();
+        u.cardId = document.getElementById("prof-card").value.trim();
+        u.dob = document.getElementById("prof-dob").value.trim();
+        u.group = document.getElementById("prof-group").value.trim();
+        u.joinDate = document.getElementById("prof-join").value.trim();
+        u.officialDate = document.getElementById("prof-official").value.trim();
+
+        DB.save();
+        alert("Cập nhật thông tin thành công!");
+        app.closeEditProfileModal();
+        app.renderMember();
+      },
+
+      openPassModal: (isMandatory = false) => {
+        document.getElementById("pwd-modal").style.display = "flex";
+        document.getElementById("pwd-alert").innerText = isMandatory 
+          ? "Đồng chí đăng nhập lần đầu bằng mật khẩu khởi tạo của Chi bộ 2. Theo quy định bảo mật cơ quan, đồng chí vui lòng đổi mật khẩu mới để bảo vệ hộp hồ sơ cá nhân!" 
+          : "Đồng chí nên định kỳ đổi mật khẩu để nâng cao tính bảo mật dữ liệu.";
+        document.getElementById("p-cancel").style.display = isMandatory ? "none" : "inline-block";
+      },
+
+      closePassModal: () => { 
+        document.getElementById("pwd-modal").style.display = "none"; 
+      },
+
+      savePassword: () => {
+        const p1 = document.getElementById("p-new").value.trim();
+        const p2 = document.getElementById("p-renew").value.trim();
+
+        if (p1.length < 6) return alert("Mật khẩu mới phải từ 6 ký tự trở lên!");
+        if (p1 !== p2) return alert("Mật khẩu xác nhận không khớp!");
+
+        DB.currentUser.password = p1;
+        DB.currentUser.mustChange = false;
+        DB.save();
+
+        alert("Cập nhật mật khẩu cá nhân thành công! Từ bây giờ đồng chí sẽ đăng nhập bằng mật khẩu mới này.");
+        app.closePassModal();
+      }
+    };
+  </script>
+</body>
+</html>
